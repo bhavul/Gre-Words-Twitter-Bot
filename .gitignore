@@ -1,3 +1,6 @@
+# Don't commit actual credentials
+config_auth.properties
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

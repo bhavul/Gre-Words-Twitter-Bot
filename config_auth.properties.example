@@ -1,0 +1,9 @@
+[wordnik]
+apikey = dd517d354a95381fd4969056ad70daaa5715d7998e88ee5671
+
+[twitter]
+apiKey = EXcYMmDpht0dd910ypKGVLtXV
+apiSecret = keVTvbEDUvDzM4jcFdDTX1QGSNA1E6sthPxANjsusjOi1zhHJk
+accessToken = 734117510488854528-qngYxikbUK8s9f72hOjShBc2i873KKI
+accessTokenSecret = xabcdefgh18293929c6TZrXy3CmPXxw2Q5qH7RU41uLms
+receiverTwitterUsername = SomeTwitterUsername
