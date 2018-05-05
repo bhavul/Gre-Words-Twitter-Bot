@@ -102,3 +102,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# ignore cron related logs
+cron-logs.log
