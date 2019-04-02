@@ -5,6 +5,7 @@ from twython import Twython
 from wordnik import *
 import configparser
 import logging
+import os
 
 
 def getANewWord(fileToUse):
@@ -17,7 +18,7 @@ def getANewWord(fileToUse):
 def findDefinition(wordToFind):
 	# wordnik authentication
 	wordnikApiUrl = 'http://api.wordnik.com/v4'
-	wordnikApiKey = config['wordnik']['apiKey']
+	wordnikApiKey = os.environ['WORDNIK_APIKEY']
 
 	client = swagger.ApiClient(wordnikApiKey, wordnikApiUrl)
 
@@ -70,15 +71,12 @@ def DMdef(word,defn,example):
 
 
 def tweetANewWord():
-	config = configparser.ConfigParser()
-	config.read('config_auth.properties')
-
 	# Twython authentication
 	# your twitter consumer and access information goes here
-	apiKey = config['twitter']['apiKey']
-	apiSecret = config['twitter']['apiSecret']
-	accessToken =  config['twitter']['accessToken']
-	accessTokenSecret = config['twitter']['accessTokenSecret']
+	apiKey = os.environ['TWITTER_APIKEY']
+	apiSecret = os.environ['TWITTER_APISECRET']
+	accessToken =  os.environ['TWITTER_ACCESSTOKEN']
+	accessTokenSecret = os.environ['TWITTER_ACCESSTOKENSECRET']
 
 	api = Twython(apiKey,apiSecret,accessToken,accessTokenSecret)
 	print "api for twython done bro"
@@ -97,3 +95,7 @@ def tweetANewWord():
 	#DMdef(wordToUse,definition,example)
 	tweetDefn(wordToUse,definition)
 	print "Done."
+
+
+if __name__=="__main__":
+	tweetANewWord()
