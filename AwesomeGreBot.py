@@ -4,12 +4,15 @@ import random
 from twython import Twython
 from wordnik import *
 import configparser
+import logging
+
 
 def getANewWord(fileToUse):
 	lineToUse = random.choice(open(fileToUse).readlines())
 	lineToUse = lineToUse.split(' ')
 	wordToUse = lineToUse[0]
 	return wordToUse
+
 
 def findDefinition(wordToFind):
 	# wordnik authentication
@@ -26,6 +29,7 @@ def findDefinition(wordToFind):
 	#print defn[0].text
 	return (defn,example)
 	
+
 def tweetDefn(word,defn):
 	arr = ["You must be knowing","Just realized","Did u know","Dictionary says","Pata hai"," "]
 	prefix = random.choice(arr)
@@ -37,7 +41,8 @@ def tweetDefn(word,defn):
 		api.update_status(status=tweet2)
 	else:
 		api.update_status(status=tweet)
-	print "Tweeted another word!"
+	logging.info("Tweeted another word!") 
+
 
 def abbreviatePoS(partOfSpeech):
 	if partOfSpeech == 'noun':
@@ -46,6 +51,7 @@ def abbreviatePoS(partOfSpeech):
 		return '(adj.)'
 	elif partOfSpeech == 'verb':
 		return '(v.)'
+
 
 def DMdef(word,defn,example):
 	#arr = ["You must be knowing","Just realized","Did you know","Dictionary says","Pata hai"," "]
@@ -60,36 +66,34 @@ def DMdef(word,defn,example):
 			message = message+eg.text+"\n\n"
 	#message=message+"----------------------"
 	api.send_direct_message(screen_name=config['twitter']['receiverTwitterUsername'],text=message)
-	print "DMs Sent."
+	logging.info("DMs Sent.")
 
 
-config = configparser.ConfigParser()
-config.read('config_auth.properties')
+def tweetANewWord():
+	config = configparser.ConfigParser()
+	config.read('config_auth.properties')
 
-# Twython authentication
-# your twitter consumer and access information goes here
-apiKey = config['twitter']['apiKey']
-apiSecret = config['twitter']['apiSecret']
-accessToken =  config['twitter']['accessToken']
-accessTokenSecret = config['twitter']['accessTokenSecret']
+	# Twython authentication
+	# your twitter consumer and access information goes here
+	apiKey = config['twitter']['apiKey']
+	apiSecret = config['twitter']['apiSecret']
+	accessToken =  config['twitter']['accessToken']
+	accessTokenSecret = config['twitter']['accessTokenSecret']
 
-api = Twython(apiKey,apiSecret,accessToken,accessTokenSecret)
-print "api for twython done bro"
+	api = Twython(apiKey,apiSecret,accessToken,accessTokenSecret)
+	print "api for twython done bro"
 
-# LOGIC!!!!
-filesAvailable = ['words.txt','wordsPrinceton.txt']
-fileToUse = random.choice(filesAvailable)
-print "will be using "+fileToUse+" file."
+	# LOGIC!!!!
+	filesAvailable = ['words.txt','wordsPrinceton.txt']
+	fileToUse = random.choice(filesAvailable)
+	print "will be using "+fileToUse+" file."
 
-wordToUse = getANewWord(fileToUse)
-wordToUse = wordToUse.strip()
+	wordToUse = getANewWord(fileToUse)
+	wordToUse = wordToUse.strip()
 
-print "wordToUse is "+wordToUse
-definition,example = findDefinition(wordToUse)
+	print "wordToUse is "+wordToUse
+	definition,example = findDefinition(wordToUse)
 
-#DMdef(wordToUse,definition,example)
-tweetDefn(wordToUse,definition)
-print "Done."
-
-### END ###
-
+	#DMdef(wordToUse,definition,example)
+	tweetDefn(wordToUse,definition)
+	print "Done."
