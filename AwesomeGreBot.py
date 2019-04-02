@@ -42,7 +42,7 @@ def tweetDefn(word,defn):
 		api.update_status(status=tweet2)
 	else:
 		api.update_status(status=tweet)
-	logging.info("Tweeted another word!") 
+	print "Tweeted another word!" 
 
 
 def abbreviatePoS(partOfSpeech):
