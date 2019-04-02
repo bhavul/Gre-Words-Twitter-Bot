@@ -4,6 +4,9 @@ import random
 from twython import Twython
 from wordnik import *
 import configparser
+import logging
+import os
+
 
 def getANewWord(fileToUse):
 	lineToUse = random.choice(open(fileToUse).readlines())
@@ -11,10 +14,11 @@ def getANewWord(fileToUse):
 	wordToUse = lineToUse[0]
 	return wordToUse
 
+
 def findDefinition(wordToFind):
 	# wordnik authentication
 	wordnikApiUrl = 'http://api.wordnik.com/v4'
-	wordnikApiKey = config['wordnik']['apiKey']
+	wordnikApiKey = os.environ['WORDNIK_APIKEY']
 
 	client = swagger.ApiClient(wordnikApiKey, wordnikApiUrl)
 
@@ -26,7 +30,8 @@ def findDefinition(wordToFind):
 	#print defn[0].text
 	return (defn,example)
 	
-def tweetDefn(word,defn):
+
+def tweetDefn(word,defn,api):
 	arr = ["You must be knowing","Just realized","Did u know","Dictionary says","Pata hai"," "]
 	prefix = random.choice(arr)
 	tweet = prefix+" #"+word+" means "+abbreviatePoS(defn[0].partOfSpeech)+'  '+defn[0].text
@@ -37,7 +42,8 @@ def tweetDefn(word,defn):
 		api.update_status(status=tweet2)
 	else:
 		api.update_status(status=tweet)
-	print "Tweeted another word!"
+	print "Tweeted another word!" 
+
 
 def abbreviatePoS(partOfSpeech):
 	if partOfSpeech == 'noun':
@@ -46,6 +52,7 @@ def abbreviatePoS(partOfSpeech):
 		return '(adj.)'
 	elif partOfSpeech == 'verb':
 		return '(v.)'
+
 
 def DMdef(word,defn,example):
 	#arr = ["You must be knowing","Just realized","Did you know","Dictionary says","Pata hai"," "]
@@ -60,36 +67,35 @@ def DMdef(word,defn,example):
 			message = message+eg.text+"\n\n"
 	#message=message+"----------------------"
 	api.send_direct_message(screen_name=config['twitter']['receiverTwitterUsername'],text=message)
-	print "DMs Sent."
+	logging.info("DMs Sent.")
 
 
-config = configparser.ConfigParser()
-config.read('config_auth.properties')
+def tweetANewWord():
+	# Twython authentication
+	# your twitter consumer and access information goes here
+	apiKey = os.environ['TWITTER_APIKEY']
+	apiSecret = os.environ['TWITTER_APISECRET']
+	accessToken =  os.environ['TWITTER_ACCESSTOKEN']
+	accessTokenSecret = os.environ['TWITTER_ACCESSTOKENSECRET']
 
-# Twython authentication
-# your twitter consumer and access information goes here
-apiKey = config['twitter']['apiKey']
-apiSecret = config['twitter']['apiSecret']
-accessToken =  config['twitter']['accessToken']
-accessTokenSecret = config['twitter']['accessTokenSecret']
+	api = Twython(apiKey,apiSecret,accessToken,accessTokenSecret)
+	print "api for twython done bro"
 
-api = Twython(apiKey,apiSecret,accessToken,accessTokenSecret)
-print "api for twython done bro"
+	# LOGIC!!!!
+	filesAvailable = ['words.txt','wordsPrinceton.txt']
+	fileToUse = random.choice(filesAvailable)
+	print "will be using "+fileToUse+" file."
 
-# LOGIC!!!!
-filesAvailable = ['words.txt','wordsPrinceton.txt']
-fileToUse = random.choice(filesAvailable)
-print "will be using "+fileToUse+" file."
+	wordToUse = getANewWord(fileToUse)
+	wordToUse = wordToUse.strip()
 
-wordToUse = getANewWord(fileToUse)
-wordToUse = wordToUse.strip()
+	print "wordToUse is "+wordToUse
+	definition,example = findDefinition(wordToUse)
 
-print "wordToUse is "+wordToUse
-definition,example = findDefinition(wordToUse)
+	#DMdef(wordToUse,definition,example)
+	tweetDefn(wordToUse,definition,api)
+	print "Done."
 
-#DMdef(wordToUse,definition,example)
-tweetDefn(wordToUse,definition)
-print "Done."
 
-### END ###
-
+if __name__=="__main__":
+	tweetANewWord()
