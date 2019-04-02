@@ -31,7 +31,7 @@ def findDefinition(wordToFind):
 	return (defn,example)
 	
 
-def tweetDefn(word,defn):
+def tweetDefn(word,defn,api):
 	arr = ["You must be knowing","Just realized","Did u know","Dictionary says","Pata hai"," "]
 	prefix = random.choice(arr)
 	tweet = prefix+" #"+word+" means "+abbreviatePoS(defn[0].partOfSpeech)+'  '+defn[0].text
@@ -93,7 +93,7 @@ def tweetANewWord():
 	definition,example = findDefinition(wordToUse)
 
 	#DMdef(wordToUse,definition,example)
-	tweetDefn(wordToUse,definition)
+	tweetDefn(wordToUse,definition,api)
 	print "Done."
 
 
