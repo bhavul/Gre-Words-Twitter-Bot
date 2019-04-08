@@ -1,6 +1,7 @@
 # Gre-Words-Twitter-Bot
 This is a simple twitter bot which tweets GRE words. If you're one of the people who are studying for GRE, you could subscribe to the twitter bot I've made [@LogophileInsaan](https://twitter.com/logophileinsaan), or create a bot of your own. 
 
+This would send out a new tweet with a random word from the words.txt or princeton words list. You could have your own word list as well.
 
 ## How to run the bot?
 
@@ -62,11 +63,10 @@ python AwesomeGreBot.py
 
 Every time you run above, it will tweet once. To run it as a cron, replace `python AwesomeGreBot.py` with `python clock.py`
 
-**On Heroku**  
-Nothing much needs to be done. `Procfile` makes sure to tell Heroku that it has to run `clock.py` which automatically schedules a new tweet every 10th, 30th and 50th minute of the day between 9am and 10pm. 
+**On Heroku**   
+Nothing much needs to be done. `Procfile` makes sure to tell Heroku that it has to run `clock.py` which automatically schedules a new tweet every 30 minutes between 1am and 11pm GMT. 
 
 --
 
-This would send out a new tweet with a random word from the words.txt or princeton words list. 
 
 
