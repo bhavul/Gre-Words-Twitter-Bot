@@ -34,11 +34,11 @@ def findDefinition(wordToFind):
 def tweetDefn(word,defn,api):
 	arr = ["You must be knowing","Just realized","Did u know","Dictionary says","Pata hai"," "]
 	prefix = random.choice(arr)
-	tweet = prefix+" #"+word+" means "+abbreviatePoS(defn[0].partOfSpeech)+'  '+defn[0].text
-	if len(tweet) > 140:
-		tweet1 = tweet[:120]+'(1/2)'
+	tweet = prefix+" #"+word+" means "+abbreviatePoS(defn[0].partOfSpeech)+'  '+defn[0].text+'  #gre #vocabulary #word'
+	if len(tweet) > 260:
+		tweet1 = tweet[:260]+' (1/2)'
 		api.update_status(status=tweet1)
-		tweet2 = tweet[120:]+'(2/2) #'+word
+		tweet2 = tweet[260:]+' (2/2) #'+word
 		api.update_status(status=tweet2)
 	else:
 		api.update_status(status=tweet)
