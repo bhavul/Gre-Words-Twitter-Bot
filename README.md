@@ -1,5 +1,5 @@
 # Gre-Words-Twitter-Bot
-This is a simple twitter bot which tweets GRE words. If you're one of the people who are studying for GRE, you could subscribe to the twitter bot I've made [@LogophileInsaan](https://twitter.com/logophileinsaan), or create a bot of your own. 
+This is a simple twitter bot which tweets GRE words. If you're one of the people who are studying for GRE, you could subscribe to the twitter bot I've made [@GREWordVocab](https://twitter.com/Grewordvocab), or create a bot of your own. 
 
 This would send out a new tweet with a random word from the words.txt or princeton words list. You could have your own word list as well.
 
