@@ -33,7 +33,7 @@ Once you have these, you need to know that these have to be given as following e
 - https://apscheduler.readthedocs.io/en/v3.6.0/modules/triggers/cron.html#module-apscheduler.triggers.cron
 
 ## Requirements
-- Python v2.7  (Why? Because this is actually an old project that I'm just publishing now. Back then I was on Py 2.7, although it can quite easily be ported to v3. **Pull Requests, Anyone?**)
+- Python v3  
 
 
 - configparser (`pip install configparser`)
@@ -49,9 +49,10 @@ Know that Heroku automatically knows to run this command when we've put a `requi
 
 ## How to run?
 
-**On local machine**  
+###On local machine
 
 ```shell
+# make sure to get your own keys and replace these duummy values.
 export TWITTER_APIKEY=EXcYMmDpht0dd910ypKGVLtXV
 export TWITTER_APISECRET=keVTvbEDUvDzM4jcFdDTX1QGSNA1E6sthPxANjsusjOi1zhHJk
 export TWITTER_ACCESSTOKEN=734117510488854528-qngYxikbUK8s9f72hOjShBc2i873KKI
@@ -63,7 +64,7 @@ python AwesomeGreBot.py
 
 Every time you run above, it will tweet once. To run it as a cron, replace `python AwesomeGreBot.py` with `python clock.py`
 
-**On Heroku**   
+### On Heroku  
 Nothing much needs to be done. `Procfile` makes sure to tell Heroku that it has to run `clock.py` which automatically schedules a new tweet every 30 minutes between 1am and 11pm GMT. 
 
 --

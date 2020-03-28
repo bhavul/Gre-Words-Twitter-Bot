@@ -6,6 +6,7 @@ from wordnik import *
 import configparser
 import logging
 import os
+from bs4 import BeautifulSoup
 
 
 def getANewWord(fileToUse):
@@ -26,15 +27,15 @@ def findDefinition(wordToFind):
 	example = wordConnection.getExamples(word=wordToFind,limit=3)
 	example = example.examples
 	defn = wordConnection.getDefinitions(word=wordToFind,sourceDictionaries='wiktionary')
-	#print example.text
-	#print defn[0].text
 	return (defn,example)
 	
 
 def tweetDefn(word,defn,api):
 	arr = ["You must be knowing","Just realized","Did u know","Dictionary says","Pata hai"," "]
 	prefix = random.choice(arr)
-	tweet = prefix+" #"+word+" means "+abbreviatePoS(defn[0].partOfSpeech)+'  '+defn[0].text+'  #gre #vocabulary #word'
+	soup = BeautifulSoup(defn[0].text, "html.parser")
+	definition_text = soup.get_text()
+	tweet = prefix+" #"+word+" means "+abbreviatePoS(defn[0].partOfSpeech)+'  '+definition_text+'  #gre #vocabulary #word'
 	if len(tweet) > 260:
 		tweet1 = tweet[:260]+' (1/2)'
 		api.update_status(status=tweet1)
@@ -42,7 +43,7 @@ def tweetDefn(word,defn,api):
 		api.update_status(status=tweet2)
 	else:
 		api.update_status(status=tweet)
-	print "Tweeted another word!" 
+	print("Tweeted another word!") 
 
 
 def abbreviatePoS(partOfSpeech):
@@ -79,22 +80,22 @@ def tweetANewWord():
 	accessTokenSecret = os.environ['TWITTER_ACCESSTOKENSECRET']
 
 	api = Twython(apiKey,apiSecret,accessToken,accessTokenSecret)
-	print "api for twython done bro"
+	print("api for twython done bro")
 
 	# LOGIC!!!!
 	filesAvailable = ['words.txt','wordsPrinceton.txt']
 	fileToUse = random.choice(filesAvailable)
-	print "will be using "+fileToUse+" file."
+	print("will be using {} file.".format(fileToUse))
 
 	wordToUse = getANewWord(fileToUse)
 	wordToUse = wordToUse.strip()
 
-	print "wordToUse is "+wordToUse
+	print("wordToUse is {}".format(wordToUse))
 	definition,example = findDefinition(wordToUse)
 
 	#DMdef(wordToUse,definition,example)
 	tweetDefn(wordToUse,definition,api)
-	print "Done."
+	print("Done.")
 
 
 if __name__=="__main__":
