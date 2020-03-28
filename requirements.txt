@@ -1,4 +1,5 @@
 twython
 configparser
-wordnik
+wordnik-py3
 apscheduler
+beautifulsoup4

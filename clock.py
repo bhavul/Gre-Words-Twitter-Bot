@@ -5,5 +5,5 @@ sched = BlockingScheduler()
 
 sched.add_job(tweetANewWord, 'cron', hour='1-23', minute='0,30')
 
-print "Starting scheduler!"
+print("Starting scheduler!")
 sched.start()
